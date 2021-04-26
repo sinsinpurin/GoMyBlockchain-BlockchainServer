@@ -1,0 +1,79 @@
+swagger: "2.0"
+info:
+  description: "Wallet ServerのAPIです。"
+  version: "1.0.0"
+  title: "WalletServer API"
+  contact:
+    email: "tusanch6@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+paths:
+  /wallet:
+    post:
+      summary: "wallet"
+      description: "chacheされているwalletをJSONで返します"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              PrivateKey:
+                type: "string"
+                example: "67b0b4b6641892cf78e6988ec67144b291313ae0519c261070503455d3f96791"
+              PublicKey:
+                type: "string"
+                example: "0252845e514bda761949d7cafc26b18394bfcd36f417edffe6acb81c251837fb14"
+              Address:
+                type: "string"
+                example: "1CVMN8qThbqLWmY9daa6ZgAnBQGC1Gza5U"
+  /transactions:
+    get:
+      summary: "transactionpool"
+      description: "transactionpoolにあるトランザクションを返します"
+      responses: 
+        200:
+          description: "成功時のレスポンス"
+          schema:
+            type: "object"
+            properties:
+              transactions:
+                type: "array"
+                items:
+                  $ref: "#/definitions/transaction" 
+              length:
+                type: "integer"
+                example: "1"
+    post:
+      summary: "transactionの追加"
+      description: "transactionをtransactionpoolに追加します．transactionの有効性を同時に検証します"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+  /mine:
+    get:
+      summary: "mining start"
+      description: "miningを開始します"
+      responses:
+        200:
+          description: "成功時のレスポンス"
+definitions:
+  transaction:
+    type: "object"
+    properties: 
+      RecipientAddress:
+        type: "string"
+        example: "1BYxb5keM4NQuhhf7XqKJM6Nvzs4VoAhXt"
+      SenderAddress:
+        type: "string"
+        example: "191KsE7Zu3h2nmeAQazConpoVdfvpyM7Ro"
+      Value:
+        type: "integer"
+        example: 12
+      SenderPublicKey:
+        type: "string"
+        example: "02cbb7949ede94a0a2c37cbd1e5aa9602fd71fbf23f9e16a2709725482b99b485a"
+      Signature:
+        type: "string"
+        example: "1c742a95c1638a7f7087720c9e01a74234e99337e3e755a26e0abcf95ea93f04376457d8ed9a06b47e0656bb96a43dbf630b3eba19ffc90301e4e25c8f3b53d701"
